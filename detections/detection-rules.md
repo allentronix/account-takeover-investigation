@@ -1,6 +1,6 @@
 # Account Takeover Detection Rules
 
-I wrote these three rules based on the j.smith incident. Each one
+I wrote these three rules based on the t.walker incident. Each one
 groups events by username and source IP.
 
 ## Rule 1: Multiple Failed Logins

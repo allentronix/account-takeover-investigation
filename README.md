@@ -7,7 +7,7 @@ logs are simulated.
 
 ## Scenario
 
-An employee account (j.smith) had several failed logins in a row,
+An employee account (t.walker) had several failed logins in a row,
 then a successful login and a passed MFA check, all from the same
 suspicious IP.
 
@@ -43,7 +43,7 @@ MFA success after a failure.
 
 ## What I Found
 
-- Five failed logins on j.smith.
+- Five failed logins on t.walker.
 - A successful login right after the failures.
 - An MFA failure followed by a success.
 - A session created from the suspicious IP.

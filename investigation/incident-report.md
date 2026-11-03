@@ -4,21 +4,21 @@
 
 - Incident ID: ATO-001
 - Type: Suspected account takeover
-- Account: j.smith
+- Account: t.walker
 - Date: 2026-10-28
 - Severity: High
 - Status: Investigated (simulated)
 
 ## Summary
 
-The auth logs show five failed logins on j.smith in under two
+The auth logs show five failed logins on t.walker in under two
 minutes, then a successful login from the same IP. MFA failed
 once, passed on the second try, and a session was created.
 
 I looked up the IP on AbuseIPDB. It's a Tor exit node with a 100%
 abuse confidence score and 6,994 reports.
 
-j.smith normally logs in from 192.168.1.25 in London, including
+t.walker normally logs in from 192.168.1.25 in London, including
 at 08:00 that morning and again at 09:05, so this doesn't look
 like their usual activity. I can't confirm the account was
 compromised from these logs alone, but I'd treat it as likely.
@@ -39,7 +39,7 @@ compromised from these logs alone, but I'd treat it as likely.
 
 ## Indicators
 
-- Username: j.smith
+- Username: t.walker
 - Source IP: 185.220.101.45
 - Hostname: tor-exit-45.for-privacy.net
 - ASN: AS60729
@@ -70,7 +70,7 @@ of how the attacker actually got in.
 ## Recommended Response
 
 1. Revoke active sessions and refresh tokens.
-2. Reset j.smith's password.
+2. Reset t.walker's password.
 3. Have the user re-enroll MFA if compromise is suspected.
 4. Check recent account activity and mailbox changes.
 5. Check whether the IP tried any other accounts.
@@ -84,5 +84,5 @@ plus the MFA activity, the session, and the IP's reputation, is
 enough to contain the account now and keep investigating.
 
 This doesn't prove the account was compromised, though. Talking
-to j.smith and checking what happened after 08:20 would help
+to t.walker and checking what happened after 08:20 would help
 settle that.
