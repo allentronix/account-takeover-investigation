@@ -1,27 +1,28 @@
 # Account Takeover Detection Rules
 
-## Rule 1: Multiple Failed Login Attempts
+I wrote these three rules based on the j.smith incident. Each one
+groups events by username and source IP.
 
-- Detection: 5 or more failed login attempts
-- Grouping: Username + source IP
+## Rule 1: Multiple Failed Logins
+
+- Triggers on: 5 or more failed logins
 - Severity: Medium
-- Purpose: Identify possible brute-force activity
+- Why: Could be someone brute-forcing the password
 
-## Rule 2: Successful Login After Repeated Failures
+## Rule 2: Successful Login After Failures
 
-- Detection: Successful login following 5 or more failures
-- Grouping: Username + source IP
+- Triggers on: A successful login after 5 or more failures
 - Severity: High
-- Purpose: Identify possible credential compromise
+- Why: The attacker may have found the right password
 
-## Rule 3: MFA Failure Followed by Success
+## Rule 3: MFA Failure Then Success
 
-- Detection: Failed MFA followed by successful MFA
-- Grouping: Username + source IP
+- Triggers on: A failed MFA attempt followed by a successful one
 - Severity: Medium
-- Purpose: Identify suspicious authentication sequences
+- Why: Could mean someone without the real MFA device got through
 
-## Investigation Notes
+## Notes
 
-These rules generate alerts for suspicious authentication activity.
-Alerts require analyst validation before confirming account compromise.
+An alert from these rules doesn't mean the account was
+compromised. A real user who mistyped their password can trigger
+them too, so an analyst still needs to check each alert.

@@ -1,89 +1,88 @@
 # Incident Report: PHISH/ATO-001
 
-## 1. Incident Overview
+## Overview
 
 - Incident ID: ATO-001
-- Incident Type: Suspected Account Takeover
-- Target Account: j.smith
-- Incident Date: 2026-10-28
+- Type: Suspected account takeover
+- Account: j.smith
+- Date: 2026-10-28
 - Severity: High
-- Status: Investigated (Simulated)
+- Status: Investigated (simulated)
 
-## 2. Executive Summary
+## Summary
 
-Authentication logs revealed suspicious activity targeting the
-j.smith account. Five consecutive failed login attempts were
-followed by successful authentication from the same IP address.
+The auth logs show five failed logins on j.smith in under two
+minutes, then a successful login from the same IP. MFA failed
+once, passed on the second try, and a session was created.
 
-The source IP was subsequently investigated using AbuseIPDB.
-It was identified as a Tor exit node with a 100% abuse
-confidence score and 6,994 reported abuse records.
+I looked up the IP on AbuseIPDB. It's a Tor exit node with a 100%
+abuse confidence score and 6,994 reports.
 
-The authentication sequence and external IP reputation indicate
-a high likelihood of malicious authentication activity.
+j.smith normally logs in from 192.168.1.25 in London, including
+at 08:00 that morning and again at 09:05, so this doesn't look
+like their usual activity. I can't confirm the account was
+compromised from these logs alone, but I'd treat it as likely.
 
-Account compromise cannot be definitively confirmed from the
-available logs alone.
+## Timeline
 
-## 3. Timeline
-
-| Timestamp (UTC) | Event |
-|-----------------|-------|
-| 08:15:10 | First failed login |
-| 08:15:42 | Second failed login |
-| 08:16:01 | Third failed login |
-| 08:16:33 | Fourth failed login |
-| 08:17:02 | Fifth failed login |
+| Time (UTC) | Event |
+|------------|-------|
+| 08:15:10 | Failed login 1 |
+| 08:15:42 | Failed login 2 |
+| 08:16:01 | Failed login 3 |
+| 08:16:33 | Failed login 4 |
+| 08:17:02 | Failed login 5 |
 | 08:17:30 | Successful login |
-| 08:18:05 | MFA failure |
-| 08:19:11 | MFA success |
+| 08:18:05 | MFA failed |
+| 08:19:11 | MFA passed |
 | 08:20:15 | Session created |
 
-## 4. Indicators of Compromise
+## Indicators
 
 - Username: j.smith
 - Source IP: 185.220.101.45
 - Hostname: tor-exit-45.for-privacy.net
 - ASN: AS60729
-- IP classification: Tor exit node
+- IP type: Tor exit node
 - Abuse confidence score: 100%
 - Abuse reports: 6,994
 
-## 5. Detection Findings
+## Findings
 
-- Five consecutive authentication failures.
-- Successful authentication following repeated failures.
-- MFA failure followed by successful MFA.
-- Session creation from suspicious source IP.
-- External IP reputation indicates significant abuse risk.
+- Five failed logins in a row from one IP.
+- A successful login right after those failures, which suggests
+  the attacker ended up with the right password.
+- An MFA failure followed by an MFA pass. The logs don't show how
+  MFA was passed.
+- A session created from the Tor IP.
+- No other events from this IP after the session was created, so
+  I can't tell what was done with the session, if anything.
 
-## 6. MITRE ATT&CK Mapping
+## MITRE ATT&CK Mapping
 
 - T1110: Brute Force
 - T1078: Valid Accounts
-- T1090.003: Proxy - Multi-hop Proxy
+- T1090.003: Proxy: Multi-hop Proxy
 
-These mappings represent plausible techniques based on the
-observed behavior, not definitive attribution.
+These are my best fit for what the logs show. They aren't proof
+of how the attacker actually got in.
 
-## 7. Recommended Response
+## Recommended Response
 
 1. Revoke active sessions and refresh tokens.
-2. Reset the affected user's password.
-3. Require MFA re-enrollment if compromise is suspected.
-4. Review recent account activity and mailbox changes.
-5. Investigate other accounts contacted by the source IP.
-6. Block the IP where appropriate, considering Tor usage policies.
-7. Notify the account owner and document remediation.
+2. Reset j.smith's password.
+3. Have the user re-enroll MFA if compromise is suspected.
+4. Check recent account activity and mailbox changes.
+5. Check whether the IP tried any other accounts.
+6. Block the IP if that fits our Tor policy.
+7. Tell the account owner and write down what was done.
 
-## 8. Conclusion
+## Conclusion
 
-The evidence supports a HIGH-severity suspected account
-takeover investigation.
+I rated this High. A successful login after repeated failures,
+plus the MFA activity, the session, and the IP's reputation, is
+enough to contain the account now and keep investigating.
 
-Successful authentication following repeated failures,
-MFA challenges, session creation, and suspicious IP reputation
-justify immediate containment and further investigation.
-
-The available evidence does not independently prove that
-the legitimate account owner was compromised.
+This doesn't prove the account was compromised, though. Talking
+to j.smith and checking what happened after 08:20 would help
+settle that.
